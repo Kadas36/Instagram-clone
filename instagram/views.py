@@ -4,6 +4,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import commentForm, postForm
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 
@@ -12,25 +14,12 @@ from .forms import commentForm, postForm
 
 @login_required(login_url='/accounts/login/')
 def insta_home(request):
-    current_user = request.user
     all_images = Image.objects.all()
     all_comments = Comment.objects.all()
     all_profiles = Profile.objects.all()
+    current_user = request.user
     user_profile = Profile.objects.filter(user=current_user)
-    form = commentForm
-    for image in all_images:
-        image_id = image.id
-        current_image = get_object_or_404(Image, id=image_id)
-        if request.method == 'POST':
-            form = commentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.image = current_image
-                comment.editor = current_user
-                comment.save()
-                return redirect('home')
-            else:
-                form = commentForm()
+
 
     context = {
         'images' : all_images,
@@ -38,7 +27,6 @@ def insta_home(request):
         'all_profiles': all_profiles,
         'all_comments': all_comments,
         'profile': user_profile,
-        'form': form,
     }    
     return render(request, 'all_insta/home.html', context)
 
@@ -72,6 +60,41 @@ def new_post(request):
         'all_comments': all_comments
     }  
 
-    return render(request, 'all_insta/new_post.html', context)  
+    return render(request, 'all_insta/new_post.html', context) 
+
+
+def Likeview(request,pk):
+    image = get_object_or_404(Image, id=request.POST.get('image_id'))
+    image.likes = image.likes + 1
+    image.save()
+    return HttpResponseRedirect(reverse('home'))
+  
+
+def Commentview(request, image_id):
+    all_images = Image.objects.all()
+    current_user = request.user
+    form = commentForm
+    for image in all_images:
+        image_id = image.id
+        current_image = get_object_or_404(Image, id=image_id)
+        if request.method == 'POST':
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.image = current_image
+                comment.editor = current_user
+                comment.save()
+                return redirect('home')
+            else:
+                form = commentForm()
+
+        context = {
+            'images' : all_images,
+            'current_user' : current_user,
+            'form': form,
+        }         
+
+        return render(request, 'all_insta/add_comment.html', context)            
+    
+
 
         

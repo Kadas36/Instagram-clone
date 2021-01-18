@@ -53,6 +53,10 @@ class Image(models.Model):
         self.image_caption = new_caption
         self.save()
 
+    def likes_count(self):
+        total_likes = self.likes.count()
+        return total_likes
+
 
 class Comment(models.Model):
     comment = models.TextField()

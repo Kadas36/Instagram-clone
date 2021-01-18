@@ -121,3 +121,7 @@
     color: #111111;
     text-decoration:none;
 }
+.card-body button{
+	border: none;
+	background: transparent;
+}
