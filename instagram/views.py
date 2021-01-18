@@ -47,7 +47,8 @@ def new_post(request):
     current_user = request.user
     all_profiles = Profile.objects.all()
     current_user_id = current_user.id
-    current_user_profile = Profile.objects.filter(user_id = current_user_id)
+    all_comments = Comment.objects.all()
+    images = Image.objects.filter(user_key_id = current_user_id)
     print(current_user_id)
     for profile in all_profiles:
         if current_user_id:
@@ -65,6 +66,8 @@ def new_post(request):
     context = {
         'current_user' : current_user,
         'new_post': form,
+        'images': images,
+        'all_comments': all_comments
     }  
 
     return render(request, 'all_insta/new_post.html', context)  

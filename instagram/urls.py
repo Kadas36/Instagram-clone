@@ -5,7 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.insta_home, name='home'),
-    path('post/', views.new_post, name='newpost'),
+    path('profile/', views.new_post, name='newpost'),
 ]
 
 if settings.DEBUG:
