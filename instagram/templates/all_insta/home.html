@@ -33,9 +33,7 @@
                             </div>
                         {% endfor%}    
                         <hr>
-                        <div class="comments">
-                            <a href="{% url 'comment_image' image_id=image.id %}">comment</a>
-                        </div>
+                        <a href="{% url 'comment' image_id=image.id %}">Comment</a>
                     </div>
                 </div>
                 {% endfor%}

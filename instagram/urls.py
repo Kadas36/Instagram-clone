@@ -6,7 +6,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.insta_home, name='home'),
     path('profile/', views.new_post, name='newpost'),
-    path( 'comment/<int:image_id>/', views.Commentview, name='comment_image'),
+    path('comment/<int:image_id>', views.Commentview, name='comment'),
     path( 'like/<int:pk>', views.Likeview, name='like_image'),
 ]
 

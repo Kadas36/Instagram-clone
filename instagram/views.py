@@ -25,11 +25,29 @@ def insta_home(request):
         'images' : all_images,
         'current_user' : current_user,
         'all_profiles': all_profiles,
-        'all_comments': all_comments,
         'profile': user_profile,
     }    
     return render(request, 'all_insta/home.html', context)
 
+@login_required(login_url='/accounts/login/')
+def Commentview(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
+    current_user = request.user
+    if request.method == 'POST':
+        form = commentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.creator = current_user
+            comment.save()
+            return redirect('index')
+    else:
+        form = commentForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, 'all_insta/comment.html', context)    
 
 @login_required(login_url='/accounts/login/')
 def new_post(request):
@@ -70,30 +88,7 @@ def Likeview(request,pk):
     return HttpResponseRedirect(reverse('home'))
   
 
-def Commentview(request, image_id):
-    all_images = Image.objects.all()
-    current_user = request.user
-    form = commentForm
-    for image in all_images:
-        image_id = image.id
-        current_image = get_object_or_404(Image, id=image_id)
-        if request.method == 'POST':
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.image = current_image
-                comment.editor = current_user
-                comment.save()
-                return redirect('home')
-            else:
-                form = commentForm()
-
-        context = {
-            'images' : all_images,
-            'current_user' : current_user,
-            'form': form,
-        }         
-
-        return render(request, 'all_insta/add_comment.html', context)            
+           
     
 
 
