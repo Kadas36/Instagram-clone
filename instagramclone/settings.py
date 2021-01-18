@@ -95,8 +95,8 @@ WSGI_APPLICATION = 'instagramclone.wsgi.application'
 #         'NAME': 'insta',
 #         'USER': 'moringa',
 #         'PASSWORD':'kadas36',
-    }
-}
+#     }
+# }
 
 # prod
 DATABASES = {
