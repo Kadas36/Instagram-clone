@@ -28,11 +28,11 @@
                             </div>
                         {% endfor%}    
                         <hr>
-                        <form  action="{%url 'home'%}" method="post" enctype="multipart/form-data">
+                        <form method="post">
                             {%csrf_token%}
                         
                             {% bootstrap_form form%}
-                            <input type="submit" class="d-none" value="Post">
+                            <input type="submit" class="" value="Post">
                         </form>
                     </div>
                 </div>

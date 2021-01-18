@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 import datetime as dt
 from django.forms.widgets import Textarea
 
@@ -8,7 +9,7 @@ from django.forms.widgets import Textarea
 class Profile(models.Model):
     profile_pic = models.ImageField(upload_to="profile_pics/", blank=True)
     bio = models.TextField(blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     username = models.CharField(max_length=15, default='User')
     
     def __str__(self):
