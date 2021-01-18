@@ -19,14 +19,15 @@
                     <div class="card-body">
                         <i class="far fa-heart" style="font-size: 2em;"></i>
                         <p class="card-text">{{image.caption}}</p>
+                        <hr>
                         {% for comment in all_comments %}
-                            {% if comment.image_id == image.id %}
-                            <div class="comments ml-4" style="font-size: 20px;">
-                                <small>{{comment.comment}}</small>
-                                <hr>
+                            <div class="comments ml-4" style="font-size: 20px; font-weight: lighter;">
+                                {% if comment.image_id == image.id %}
+                                    <small>{{comment.comment}}</small>
+                                {% endif %}
                             </div>
-                            {% endif %}
                         {% endfor%}    
+                        <hr>
                         <form  action="{%url 'home'%}" method="post" enctype="multipart/form-data">
                             {%csrf_token%}
                         
