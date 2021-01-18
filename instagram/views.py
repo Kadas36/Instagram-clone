@@ -11,7 +11,8 @@ from .forms import commentForm, postForm
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
-def insta_home(request):
+def insta_home(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
     current_user = request.user
     all_images = Image.objects.all()
     all_comments = Comment.objects.all()
