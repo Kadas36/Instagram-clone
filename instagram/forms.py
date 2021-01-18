@@ -9,7 +9,7 @@ class commentForm(forms.ModelForm):
         exclude = ['editor', 'pub_date', 'image']
         widgets = {
             'comment': forms.Textarea(
-                attrs={'placeholder': 'add a comment', 'rows': 1}),
+                attrs={'placeholder': 'add a comment', 'rows': 5}),
                 
         }
 

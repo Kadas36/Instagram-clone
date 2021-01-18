@@ -31,8 +31,11 @@ def insta_home(request):
 
 @login_required(login_url='/accounts/login/')
 def Commentview(request, image_id):
+    form = commentForm()
     image = get_object_or_404(Image, id=image_id)
     current_user = request.user
+    all_comments = Comment.objects.all()
+
     if request.method == 'POST':
         form = commentForm(request.POST)
         if form.is_valid():
@@ -40,12 +43,14 @@ def Commentview(request, image_id):
             comment.image = image
             comment.creator = current_user
             comment.save()
-            return redirect('index')
+            return redirect('home')
     else:
         form = commentForm()
 
     context = {
+        "image": image,
         "form": form,
+        "all_comments": all_comments,
     }
     return render(request, 'all_insta/comment.html', context)    
 
