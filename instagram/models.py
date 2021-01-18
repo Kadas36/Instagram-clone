@@ -9,7 +9,7 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to="profile_pics/", blank=True)
     bio = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    username = models.CharField(max_length=30, default='User')
+    username = models.CharField(max_length=15, default='User')
     
     def __str__(self):
         return self.username
@@ -19,7 +19,7 @@ class Profile(models.Model):
 
     def delete_profile(self):
         self.delete()
-
+ 
     def update_profile(self,new_profile):
         self.profile_pic = new_profile.profile_pic
         self.bio = new_profile.bio
@@ -29,7 +29,7 @@ class Profile(models.Model):
         
 class Image(models.Model):
     image = models.ImageField(upload_to="images/")
-    name = models.CharField(max_length=30, blank=True)
+    name = models.CharField(max_length=15)
     caption = models.TextField(blank=True)
     profile_key = models.ForeignKey(Profile,on_delete=models.CASCADE)
     likes = models.PositiveIntegerField(default=0)
