@@ -34,7 +34,7 @@ def Commentview(request, image_id):
     form = commentForm()
     image = get_object_or_404(Image, id=image_id)
     current_user = request.user
-    all_comments = Comment.objects.all()
+
 
     if request.method == 'POST':
         form = commentForm(request.POST)
@@ -50,7 +50,6 @@ def Commentview(request, image_id):
     context = {
         "image": image,
         "form": form,
-        "all_comments": all_comments,
     }
     return render(request, 'all_insta/comment.html', context)    
 
@@ -60,7 +59,7 @@ def new_post(request):
     current_user = request.user
     all_profiles = Profile.objects.all()
     current_user_id = current_user.id
-    all_comments = Comment.objects.all()
+    
     images = Image.objects.filter(user_key_id = current_user_id)
     print(current_user_id)
     for profile in all_profiles:
@@ -80,7 +79,6 @@ def new_post(request):
         'current_user' : current_user,
         'new_post': form,
         'images': images,
-        'all_comments': all_comments
     }  
 
     return render(request, 'all_insta/new_post.html', context) 
