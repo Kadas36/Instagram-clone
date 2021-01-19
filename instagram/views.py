@@ -34,6 +34,7 @@ def Commentview(request, image_id):
     form = commentForm()
     image = get_object_or_404(Image, id=image_id)
     current_user = request.user
+    image_comments = Comment.objects.filter(image=image_id)
 
     print(image)
 
@@ -51,6 +52,7 @@ def Commentview(request, image_id):
     context = {
         "image": image,
         "form": form,
+        'image_comments': image_comments
     }
     return render(request, 'all_insta/comment.html', context)    
 

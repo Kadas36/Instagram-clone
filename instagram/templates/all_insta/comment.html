@@ -15,9 +15,18 @@
                 </div>
                 <img class="card-img-top img-responsive" src="{{image.image.url}}">
                 <div class="card-body">
-                    <i class="far fa-heart" style="font-size: 2em;"></i>
+                    <form action="{% url 'like_image' image.pk %}" method="post">
+                        {%csrf_token%}
+                        <button class="far fa-heart" style="font-size: 2em;" type="submit" name="image_id" value="{{ image.id }}"></button>
+                    </form>
+                    <p>{{image.likes}} - likes</p>
                     <p class="card-text">{{image.caption}}</p>
-                    <hr>  
+                     <div class="comment ml-4">
+                        {% for comment in image_comments %}
+                            <hr>
+                            <small>{{comment.comment}}</small>
+                        {% endfor%} 
+                     </div> 
                 </div>
             </div>    
         </div>
