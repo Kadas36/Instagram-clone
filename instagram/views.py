@@ -1,9 +1,9 @@
 from typing import ContextManager
-from instagram.models import Comment, Image, Profile
+from instagram.models import Image, Profile, Comment
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .forms import commentForm, postForm
+from .forms import postForm, commentForm
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
@@ -15,17 +15,17 @@ from django.http import HttpResponseRedirect
 @login_required(login_url='/accounts/login/')
 def insta_home(request):
     all_images = Image.objects.all()
-    all_comments = Comment.objects.all()
     all_profiles = Profile.objects.all()
     current_user = request.user
     user_profile = Profile.objects.filter(user=current_user)
-
+    all_comments = Comment.objects.all()
 
     context = {
         'images' : all_images,
         'current_user' : current_user,
         'all_profiles': all_profiles,
         'profile': user_profile,
+        'all_comments': all_comments
     }    
     return render(request, 'all_insta/home.html', context)
 
@@ -35,13 +35,14 @@ def Commentview(request, image_id):
     image = get_object_or_404(Image, id=image_id)
     current_user = request.user
 
+    print(image)
 
     if request.method == 'POST':
         form = commentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.image = image
-            comment.creator = current_user
+            comment.editor = current_user
             comment.save()
             return redirect('home')
     else:
@@ -58,6 +59,7 @@ def new_post(request):
     form = postForm
     current_user = request.user
     all_profiles = Profile.objects.all()
+    all_comments = Comment.objects.all()
     current_user_id = current_user.id
     
     images = Image.objects.filter(user_key_id = current_user_id)
@@ -75,10 +77,13 @@ def new_post(request):
             else:
                 form = postForm()
 
+    print(images)            
+
     context = {
         'current_user' : current_user,
         'new_post': form,
         'images': images,
+        'all_comments': all_comments
     }  
 
     return render(request, 'all_insta/new_post.html', context) 

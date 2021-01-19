@@ -60,7 +60,7 @@ class Image(models.Model):
 
 class Comment(models.Model):
     comment = models.TextField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True, null=True)
     editor = models.ForeignKey(User, on_delete=models.CASCADE)  
 
