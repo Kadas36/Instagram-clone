@@ -96,6 +96,9 @@ def Likeview(request,pk):
     image.likes = image.likes + 1
     image.save()
     return HttpResponseRedirect(reverse('home'))
+
+
+
   
 
            
