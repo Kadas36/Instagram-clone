@@ -16,6 +16,9 @@ from django.conf.urls import url
 import django_heroku
 import dj_database_url
 from decouple import config,Csv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,6 +52,7 @@ INSTALLED_APPS = [
     #third-party apps
     'bootstrap4',
     'django_registration',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -93,8 +97,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'insta',
-        'USER': 'moringa',
-        'PASSWORD':'kadas36',
+        'USER': '',
+        'PASSWORD':'',
     }
 }
 
@@ -165,3 +169,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
+
+cloudinary.config( 
+  cloud_name = "kadas", 
+  api_key = "399586485557263", 
+  api_secret = "Tdxx2QuRMek60pXHaOde-1r3iQw" 
+)

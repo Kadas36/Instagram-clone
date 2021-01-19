@@ -32,14 +32,30 @@
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
-            <hr>
-            <form method="post" enctype="multipart/form-data">
-                {%csrf_token%}
-            
-                {% bootstrap_form new_post%}
-                <input type="submit" value="Post">
-            </form>
+            {% load cloudinary %}
+            <div class="postImage">
+                <h2>Post an image</h2>
+                <hr>
+                <form method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                
+                    {% bootstrap_form new_post%}
+                    <input type="submit" value="Post">
+                </form>
+            </div>
+            <br><br><br>
+            <div class="profileupdate">
+                <h2>Update profile</h2>
+                <hr>
+                <form method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                
+                    {% bootstrap_form update_form%}
+                    <input type="submit" value="Post">
+                </form>
+            </div>
         </div>
+
         
     </div>
 </div>

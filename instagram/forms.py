@@ -1,5 +1,5 @@
 from django import forms
-from .models import Image, Comment
+from .models import Image, Comment,Profile
 
 
 
@@ -21,4 +21,14 @@ class postForm(forms.ModelForm):
             'caption': forms.Textarea(
                 attrs={'placeholder': 'add a caption', 'rows': 2}),
                 
-        }        
+        }   
+
+class profileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user', 'created', 'updated']
+        widgets = {
+            'bio': forms.Textarea(
+                attrs={'placeholder': 'add bio', 'rows': 2}),
+                
+        }                  

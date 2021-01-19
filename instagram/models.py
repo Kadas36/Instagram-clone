@@ -3,18 +3,25 @@ from django.contrib.auth.models import User
 from django.conf import settings
 import datetime as dt
 from django.forms.widgets import Textarea
+from cloudinary.models import  CloudinaryField
 
 # Create your models here.
 
 class Profile(models.Model):
-    profile_pic = models.ImageField(upload_to="profile_pics/", blank=True)
-    bio = models.TextField(blank=True)
+    profile_pic = CloudinaryField('image', null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bio = models.TextField(default="No Bio.. ")
     username = models.CharField(max_length=15, default='User')
-    
+    following = models.ManyToManyField(User, related_name='following', blank=True )
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+
     def __str__(self):
         return self.username
 
+    class Meta:
+        ordering = ('-created',) 
+    
     def save_profile(self):
         self.save()
 
@@ -29,7 +36,7 @@ class Profile(models.Model):
 
         
 class Image(models.Model):
-    image = models.ImageField(upload_to="images/")
+    image = CloudinaryField('image', null=True)
     name = models.CharField(max_length=15)
     caption = models.TextField(blank=True)
     profile_key = models.ForeignKey(Profile,on_delete=models.CASCADE)
@@ -76,9 +83,6 @@ class Comment(models.Model):
     def delete_comment(self):
         self.delete()
 
-class Follow(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    following = models.ManyToManyField(Profile)
 
 
 
